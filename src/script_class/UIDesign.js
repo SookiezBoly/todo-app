@@ -41,6 +41,10 @@ class UIDesign {
             {
                 name:'projectSelected',
                 value: '',
+            },
+            {
+                name:'editView',
+                value:'',
             }
         ];
     }
@@ -91,39 +95,36 @@ class UIDesign {
     showEditTodoView(){
         const iconBack = createElement('i', {class:'fa-solid fa-chevron-left'}, '');
         this.backButton = createElement('div', {class:'backToTaskPage'}, iconBack);
-        this.h1 = createElement('h1', {class:'title'}, 'TITRE');
-        const header = createElement('div', {class:'header'}, this.backButton, this.h1);
+        const h1 = createElement('h1', {class:'title'}, this.editTodoSelected.getTodoName());
+        const header = createElement('div', {class:'header'}, this.backButton, h1);
 
 
-        this.inputEditText = createElement('input', {type:'text', name:'todoTitle', id:'todoTitle', class:'input', placeholder:'Enter Title', required:'required'}, '');
+        this.inputEditText = createElement('input', {type:'text', name:'todoTitle', id:'todoTitle', class:'input', placeholder:'Enter Title', value:`${this.editTodoSelected.getTodoName()}`, required:'required'}, '');
         const fieldInput = createElement('div', {class:'field'}, this.inputEditText);
-        this.textArea = createElement('textarea', {name:'taskDescription', id:'taskDescription', row:'15', placeholder:'enter tasks descriptions'}, '');
+        this.textArea = createElement('textarea', {name:'taskDescription', id:'taskDescription', row:'15', placeholder:'enter tasks descriptions', value:`${this.editTodoSelected.getDescription()}`}, '');
         const fieldTextArea = createElement('div', {class:'field'}, this.textArea);
 
 
 
-        this.inputDate = createElement('input', {type:'date', class:'todoDate', name:'todoDate', required:'required'}, '');
+        this.inputDate = createElement('input', {type:'date', class:'todoDate', name:'todoDate', required:'required', value:`${this.editTodoSelected.getDate()}`}, '');
         const fieldDate = createElement('div', {class:'field'}, this.inputDate);
         this.low = createElement('option', {value:'low'}, 'Low');
         this.medium = createElement('option', {value:'medium'}, 'Medium');
         this.high = createElement('option', {value:'high'}, 'High');
-        this.prioritySelection = createElement('select', {name:'prioritySelection', class:'prioritySelection', required:'required'}, this.low, this.medium, this.high);
+        this.prioritySelection = createElement('select', {name:'prioritySelection', class:'prioritySelection', value:`${this.editTodoSelected.getPriority()}`}, this.low, this.medium, this.high); 
         const fieldTodoPriority = createElement('div', {class:'field'}, this.prioritySelection)
         const fieldDateSelect = createElement('div', {class:'fields'}, fieldDate, fieldTodoPriority);
 
         const iconEdit = createElement('i', {class:'fa-solid fa-pen-to-square editTodo'}, '');
+
         this.buttonValidEdit = createElement('button', {type:'submit', class:'validateEditTodo'}, iconEdit);
         const fieldButton = createElement('div', {class:'fieldButton'}, this.buttonValidEdit);
 
-        this.formEdit = createElement('form', {class:'editTodoform'}, fieldInput, fieldTextArea, fieldDateSelect, fieldButton);
+        this.formEdit = createElement('form', {class:'editTodoform', id:`${this.editTodoSelected.getIdTodo()}`}, fieldInput, fieldTextArea, fieldDateSelect, fieldButton);
         const bodyContainder = createElement('div', {class:'body'}, this.formEdit);
 
         return [header, bodyContainder];
     }
-
-
-
-
 }
 
 
@@ -175,6 +176,7 @@ function addProject(arg, todo){
     arg.inputProject.value = '';
 }
 
+
 function addTask(arg, todo){
     const text = `
             <li class="todo">
@@ -186,13 +188,13 @@ function addTask(arg, todo){
                                 <div class="infotags">
                                     <span class="dateTag">
                                         <span class="iconCalendar"><i class="fa fa-calendar"></i></span>
-                                        <span></span>
+                                        <span> ${todo.getDate()} </span>
                                     </span>
                                 </div>
                             </div>
                             <div class="others">
-                                <i class="fa-solid fa-pen-to-square editTodo"></i>
-                                <i class="fa-solid fa-trash deleteTodo"></i>
+                                <i class="fa-solid fa-pen-to-square editTodo" id="${todo.getIdTodo()}"></i>
+                                <i class="fa-solid fa-trash deleteTodo" id="${todo.getIdTodo()}"></i>
                             </div>
                         </div>
                     </li>
@@ -220,12 +222,11 @@ function selectedProject(arg, projectSelected){
     arg.view[2].value = arg.showProjectSelectedView();  
 }
 
-function editTodo(arg, todo){
-    arg.container.innerHTML = '';
-
-
+function selectEditTodo(arg, todoSelected){
+    arg.editTodoSelected = todoSelected;
+    arg.view[3].value = arg.showEditTodoView();
 }
 
-export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask };
+export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo };
 
 

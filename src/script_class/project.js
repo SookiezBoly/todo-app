@@ -20,6 +20,10 @@ class Project{
     addTodo(todo){
         this.todos.push(todo);
     }
+
+    getTodos(){
+        return this.todos; /* you dont need to create this function since you can acces to it directly */
+    }
 }
 
 export{ Project };

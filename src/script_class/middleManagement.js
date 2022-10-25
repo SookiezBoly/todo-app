@@ -4,6 +4,8 @@ class MiddleManagement{
        this.projectNames = [];
     }
 
+
+/* ------------------------- project --------------------------*/
     addProjectName(project){
        this.projectNames.push(project.getProjectName().toLowerCase());
     }
@@ -21,7 +23,11 @@ class MiddleManagement{
         return idPro[0];    /* now it give me an object instead of an array which was my issue */
     }
 
-   
+    setSelectedProject(project){
+        this.selectedProject = project;  
+    }
+
+/* ------------------------- todo --------------------------*/
     addTodo(todo){
         if(this.selectedProject){
             const projetSelected = this.projects.filter( project => this.selectedProject.getIdProject() === project.getIdProject() )[0];
@@ -30,10 +36,32 @@ class MiddleManagement{
         }
     }
 
-    setSelectedProject(project){
-        this.selectedProject = project;
+    getTodo(idTodo){
+        if(this.selectedProject){
+            return this.selectedProject.todos.filter( element => idTodo === element.getIdTodo())[0];
+        } 
     }
+   
+    setSelectedTodo(todo){
+        this.selectedTodo = todo;
+    }
+
+    editTodo(...data){
+        const todoToEdit = this.selectedTodo;
+        const table = [...data];
+        todoToEdit.edit(table);
+        this.selectedProject(this.selectedProject);
+        return todoToEdit;
+    }
+
 }
 
 
 export{ MiddleManagement };
+
+/**
+ *  How to get our getTodoToEdit ::
+ *         - je récupere le todo dans la liste les todos de mon projectselected dont l'ID est égale à l'ID de 
+ * 
+ * 
+ */

@@ -502,3 +502,7 @@ ul{
     transform: scale(1.05);
     cursor: pointer;
 }
+
+.container .body .editTodoform .fieldButton i{
+    pointer-events: none;
+}
