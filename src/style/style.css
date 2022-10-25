@@ -1,0 +1,504 @@
+/* https://rawcdn.githack.com/tigamadou/todoapp/9f3d9db6b0f81a66dc2b918741a505b5cf2e3911/dist/index.html  DEMO
+
+
+https://github.com/tigamadou/todoapp/blob/development/src/index.js
+https://github.com/tigamadou/todoapp/blob/5943c459cced13964670dcb30126db4d89ee604b/src/ui/UI.js#L99
+https://github.com/tigamadou/todoapp/blob/development/src/components/Project.js
+https://github.com/tigamadou/todoapp/blob/development/src/components/App.js
+
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&family=Sedgwick+Ave&display=swap');
+
+:root{
+    --black: #13131a;
+    --bg: #010103;
+    --border: .1rem solid rgba(255,255,255,.3);
+    --white : #fff;
+}
+
+*{
+    font-family: 'Sedgwick Ave', cursive;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+html{
+    font-size: 62.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: teal;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ------------------------ app ---------------------------------- */
+.app{
+    width: 1200px;
+    height: 90vh;
+    display: flex;
+    background: var(--white);
+    overflow: hidden;
+    border-radius: 30px;
+    box-shadow: 0 20px 20px -10px rgba(0,0,0,.3);
+}
+
+.sidebar{
+    z-index: 1;
+    background: var(--white);
+    width: 20vw;
+    margin: 0;
+    box-shadow: 5px 0 5px rgba(0,0,0,.1);
+}
+
+/* ------------------------ sidebar et container -------------------- */
+.sidebar .projects{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebar .projects .header{
+    background: var(--bg);
+    color:var(--white);
+    text-align: center; 
+    padding: 1.6rem;
+    font-size: 1.6rem;
+}
+
+.sidebar .projects .header h1{
+    margin: 1.5rem 0;
+}
+
+.sidebar .projects .content{
+    flex: 1;
+    overflow: auto;
+    padding: 2rem;
+}
+
+.sidebar .projects .content .temporalityProject {
+    border-bottom: 1px solid var(--bg);
+    margin-bottom: 1rem;
+}
+
+
+.all,.today,.week,.month{
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    padding: 0.9rem;
+    color: var(--white);
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: var(--bg);
+    text-align: center;
+}
+
+.sidebar .projects .content .temporalityProject > div:hover {
+    background: var(--white);
+    color: var(--bg);
+}
+
+.newProjectButton{
+    width: 100%;
+    padding: 0.7rem;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+}
+
+.newProjectButton:hover{
+    color: var(--white);
+    background: var(--bg);
+}
+
+.projectList{
+    padding: 1rem;
+}
+
+.projectList > li{
+    font-size: 1.4rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.projectName{
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.projectName:hover{
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--white);
+}
+
+.fa-solid{
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* ------------------------ container -------------------- */
+.container{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.container .body{
+    padding: 3.2rem;
+    flex: 1;
+    overflow: auto;
+}
+
+.defaultView{
+    background-image: url(/src/images/vector.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50vh;
+    height: 70vh;
+}
+
+
+/* ------------------------ container header -------------------- */
+.container .header{
+    background: var(--bg);
+    color:var(--white);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 1.6rem;
+    font-size: 1rem;
+    font-size: 1.6rem;
+}
+
+.container .header h1{
+    margin: 1.5rem 0;
+}
+
+.container .body .projectForm{
+    padding: 1rem;
+    max-width: 500px;
+    margin: auto;
+}
+
+.container .body .projectForm .field{
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    position: relative;
+}
+
+.container .body .projectForm .field input{
+    height: 4rem;
+    border: 1px solid #f1f1f1;
+    font-size: 1.3rem;
+    border-radius: 30px;
+    padding: 1rem 5rem 1rem 1rem;
+}
+
+.container .body .projectForm .field button{
+    margin-top: 1rem;
+    padding: 1rem 1.5rem;
+    color: var(--bg);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    border-radius: 50%;
+    border: none;
+    position: absolute;
+    top: -1rem;
+    right: 0;
+    font-size: 1.5rem;
+    width: 5rem;
+    height: 4rem;
+}
+
+.container .body .projectForm .field button > span{
+    margin-right: 0.5rem;
+}
+
+
+/*----------------------------- ACTIVE PROJECT -------------------------------------*/
+.activeProject{
+    color: var(--white);
+    background: var(--bg);
+    border-radius: 10px;
+}
+
+
+/*----------------------------- container and project clicked -------------------------------------*/
+.container .body form .field{
+    display: flex;
+    position: relative;
+    border-radius: 30px;
+    margin-bottom: 2rem;
+}
+
+.container .body form .field > input{
+    height: 4rem;
+    border: 1px solid #f1f1f1;
+    background: #f9f9f9;
+    border-radius: 30px;
+    flex: 1;
+    padding: 0 4rem 0 1rem;
+}
+
+.container .body form .field > button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.5rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: none;
+}
+
+.container .body form .field > button:hover{
+    cursor: pointer;
+}
+
+/*----------------------------- container and todoList -------------------------------------*/
+ul{
+    list-style: none;
+}
+
+.container .body .todoLists{
+    padding: 2rem 0;
+}
+
+.container .body .todoLists .todo{
+    margin: auto;
+    border-radius: 20px;
+    border-bottom: 1px solid #f1f1f1;
+    display: flex;
+    position: relative;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.container .body .todoLists .todo:hover{
+    background-color: #fff;
+    z-index: 3;
+    transform: scale(1.01);
+    transition: all 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1), 0 20px 5px -10px rgba(200, 200, 200, 0.1);
+}
+
+.container .body .todoLists .todo.checked{
+    background: #fefefe;
+    color: #ccc;
+}
+
+.container .body .todoLists .todo.checked .title{
+    text-decoration: line-through;
+}
+
+.container .body .todoLists .todo.checked:hover{
+    transform: none;
+    box-shadow: none;
+}
+
+.container .body .todoLists .todo input[type="checkbox"]{
+    position: absolute;
+    left: -9999px;
+}
+
+.container .body .todoLists .todo input[type="checkbox"] + label{
+    position: relative;
+    min-height: 30px;
+    min-width: 30px;
+    margin-right: 2rem;
+}
+
+.container .body .todoLists .todo input[type="checkbox"] + label::before{
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0;
+    min-height: 25px;
+    min-width: 25px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    z-index: 1;
+    cursor: pointer;
+    box-shadow: inset 0 0 2px rgba(0,0,0,.1);
+}
+
+.container .body .todoLists .todo input[type="checkbox"] + label::after{
+    position: absolute;
+    content: '\2713\0020';
+    left: 0;
+    top: 0;
+    z-index: 2;
+    cursor: pointer;
+    border: 2px solid transparent;
+    min-height: 25px;
+    min-width: 25px;
+    font-size: 1rem;
+    line-height: 25px;
+    text-align: center;
+    color: #fff;
+    background: var(--bg);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: all 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.container .body .todoLists .todo input[type="checkbox"]:checked + label::after{
+    transform: scale(1);
+}
+
+.container .body .todoLists .todo .details{
+    font-size: 1rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.container .body .todoLists .todo .preview{
+    flex: 1;
+    font-size: 1.5rem;
+    line-height: 30px;
+}
+
+.container .body .todoLists .todo i{
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.container .body .todoLists .todo .editTodo:hover{
+    transform: scale(1.01);
+    font-size: 2rem;
+    color: #556b2f;
+}
+
+.container .body .todoLists .todo .deleteTodo:hover{
+    transform: scale(1.01);
+    font-size: 2rem;
+    color: #3e0000;
+}
+
+.container .body .todoLists .todo .preview .title{
+    text-transform: capitalize;
+}
+
+.container .body .todoLists .todo .preview .infotags{
+    font-size: 1.2rem;
+}
+
+.container .body .todoLists .todo .preview .infotags .iconCalendar{
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+.container .body .todoLists .todo::after{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 5px;
+}
+
+.container .body .todoLists .todo.highPriority::after{
+    background: red;
+}
+
+.container .body .todoLists .todo.mediumPriority::after{
+    background: yellow;
+}
+
+.container .body .todoLists .todo.lowPriority::after{
+    background: green;
+}
+
+.container .body .todoLists .todo .others{
+    display: flex;
+    gap: 1rem;
+}
+
+
+/*------------------ edittask page -----------------------*/
+
+
+.container .header .backToTaskPage{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    height: 4rem;
+    width: 4rem;
+    margin-right: 2rem;
+    border: none;
+    color: var(--white);
+    background: var(--bg);
+}
+
+.container .header .backToTaskPage:hover{
+    background: lightgray;
+    color: var(--black);
+}
+
+.container .body .editTodoform .field textarea{
+    flex: 1;
+    border-radius: 30px;
+    border: 1px solid #f1f1f1;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    font-size: 1.5rem;
+}
+
+.container .body .editTodoform .fields{
+    display: flex;
+    gap: 0.2rem;
+}
+
+.container .body .editTodoform .fields .field{
+    flex: 1;
+}
+
+.container .body .editTodoform .fields .field .todoDate,
+.container .body .editTodoform .fields .field .prioritySelection{
+    border-radius: 30px;
+    flex: 1;
+    background: #f9f9f9;
+    padding: 0 3.125rem 0 1rem;
+    border: 1px solid #f9f9f9;
+    font-size: 1.5rem;
+}
+
+.container .body .editTodoform .fieldButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .body .editTodoform .fieldButton button{
+    padding: 1rem;
+    border-radius: 50%;
+    border: 1px solid #f9f9f9;
+}
+
+.container .body .editTodoform .fieldButton button:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}

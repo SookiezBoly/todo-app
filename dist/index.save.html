@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#" />  <!-- to avoid flavours icon error -->
+    <link rel="stylesheet" href="/src/style/style.css">
+    <script src="https://kit.fontawesome.com/8c2bd0be43.js" crossorigin="anonymous" defer></script>
+    <!-- <script type="module" src="/src/script_class/index.js" defer></script> -->
+    <title>Todo App MOI save</title>
+</head>
+<body>
+    <div class="app">
+
+        <div class="sidebar">
+            <div class="projects">
+                <div class="header">
+                    <h1>Todo App</h1>
+                </div>
+                <div class="content">
+                    <div class="temporalityProject">
+                        <div class="all">All</div>
+                        <div class="today">Today</div>
+                        <div class="week">Week</div>
+                        <div class="month">Month</div>
+                    </div>
+                    <button class="newProjectButton">Create Project</button>
+                    <ul class="projectList">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="header">
+                <button class="backToTaskPage"><i class="fa-solid fa-chevron-left"></i></button>
+                <h1 class="title">Test</h1>
+            </div>
+
+            <div class="body">
+                <form class="editTodoform">
+                    <div class="field">
+                        <input type="text" name="todoTitle" id="todoTitle" class="input" placeholder="Enter Titre" required>
+                    </div>
+                    <div class="field">
+                        <textarea name="taskDescription" id="taskDescription" rows="15" placeholder="enter tasks descriptions"></textarea>
+                    </div>
+                    <div class="fields">
+                        <div class="field">
+                            <input type="date" name="todoDate" class="todoDate" required>
+                        </div>
+                        <div class="field">
+                            <select name="prioritySelection" class="prioritySelection" required>
+                                <option value="low">Low</option>
+                                <option value="medium">medium</option>
+                                <option value="high">high</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="fieldButton">
+                        <button type="submit" class="validateEditTodo"><i class="fa-solid fa-pen-to-square editTodo"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>    
+
+    </div>
+
+
+
+
+
+
+
+
+    <template id="app" class="container">
+        <div class="header">
+            <h1>bla bla</h1>
+        </div>
+
+        <div class="body">
+            <form>
+                <div class="field">
+                    <input type="text" name="" id="" class="task" placeholder="enter your task">
+                    <button type="submit"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </form>
+
+            <ul class="todoLists">
+
+                <li class="todo">
+                    <input type="checkbox" name="todo" class="input" id="input">
+                    <label for="input" ></label>
+                    <div class="details">
+                        <div class="preview">
+                            <div class="title">Furyo</div>
+                            <div class="infotags">
+                                <span class="dateTag">
+                                    <span class="iconCalendar"><i class="fa fa-calendar"></i></span>
+                                    <span>2022-10-20</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="others">
+                            <i class="fa-solid fa-pen-to-square editTodo"></i>
+                            <i class="fa-solid fa-trash deleteTodo"></i>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </template>
+
+
+
+    
+    <template id="project">
+        <li class="project">
+            <span class="projectName"></span>
+            <div class="majProject">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <i class="fa-solid fa-trash"></i>
+            </div>                
+        </li>
+    </template>
+    
+    <!-- je vais devoir generé des id dans list et dans mon label -->
+</body>
+</html>
