@@ -3,6 +3,8 @@ import { Project } from '../script_class/project.js';
 import { Todo } from '../script_class/todo.js'
 import { MiddleManagement } from '../script_class/middleManagement.js';
 
+const log = console.log;
+
 const ui = new UIDesign();
 const management = new MiddleManagement();
 
@@ -51,16 +53,16 @@ ui.app.addEventListener('submit', (evt) => {
         const description = ui.textArea.value;
         const date = ui.inputDate.value;
         const priority = ui.prioritySelection.value.toLowerCase();
-
-        management.editTodo(todoName, description, date, priority);
-        
+  
+        management.editTodo(evt.target.id, todoName, description, date, priority)
+        const project = management.getSelectedProjectT();
+        selectedProject(ui, project);
         renderView(ui, 'projectSelected');
+        project.todos.forEach(todo => {
+            addTask(ui, todo);
+        });
     }
-
-
 });
-
-
 
 
 
@@ -72,7 +74,7 @@ ui.app.addEventListener('click', (evt) => {
         management.setSelectedTodo(todoToEdit);
         selectEditTodo(ui, todoToEdit);
         renderView(ui, 'editView');
-        console.log(management.selectedProject);
+        log(management.selectedProject);
     }
 
     if(evt.target.classList.contains('backToTaskPage') || evt.target.classList.contains('fa-chevron-left')){

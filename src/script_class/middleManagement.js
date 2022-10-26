@@ -17,6 +17,10 @@ class MiddleManagement{
         }    
     }
 
+    getSelectedProjectT(){
+        return this.selectedProject;
+    }
+
     /* selected project when we click on one, to get the objectproject [before creating any taks] */
     getSelectedProject(idProject){
         const idPro = this.projects.filter(project => idProject === project.getIdProject());
@@ -46,12 +50,11 @@ class MiddleManagement{
         this.selectedTodo = todo;
     }
 
-    editTodo(...data){
-        const todoToEdit = this.selectedTodo;
+    editTodo(id, ...data){
+        const todoToEdit = this.selectedProject.todos.filter( todo => id === todo.getIdTodo())[0];
         const table = [...data];
         todoToEdit.edit(table);
-        this.selectedProject(this.selectedProject);
-        return todoToEdit;
+        this.setSelectedProject(this.selectedProject);
     }
 
 }

@@ -101,18 +101,21 @@ class UIDesign {
 
         this.inputEditText = createElement('input', {type:'text', name:'todoTitle', id:'todoTitle', class:'input', placeholder:'Enter Title', value:`${this.editTodoSelected.getTodoName()}`, required:'required'}, '');
         const fieldInput = createElement('div', {class:'field'}, this.inputEditText);
-        this.textArea = createElement('textarea', {name:'taskDescription', id:'taskDescription', row:'15', placeholder:'enter tasks descriptions', value:`${this.editTodoSelected.getDescription()}`}, '');
+        this.textArea = createElement('textarea', {name:'taskDescription', id:'taskDescription', row:'15', placeholder:'enter tasks descriptions', value:`${this.editTodoSelected.getDescription()}`}, `${this.editTodoSelected.getDescription()}`);
         const fieldTextArea = createElement('div', {class:'field'}, this.textArea);
 
 
 
         this.inputDate = createElement('input', {type:'date', class:'todoDate', name:'todoDate', required:'required', value:`${this.editTodoSelected.getDate()}`}, '');
         const fieldDate = createElement('div', {class:'field'}, this.inputDate);
-        this.low = createElement('option', {value:'low'}, 'Low');
+        this.low = createElement('option', {value:'low', selected:'true'}, 'Low');
         this.medium = createElement('option', {value:'medium'}, 'Medium');
         this.high = createElement('option', {value:'high'}, 'High');
         this.prioritySelection = createElement('select', {name:'prioritySelection', class:'prioritySelection', value:`${this.editTodoSelected.getPriority()}`}, this.low, this.medium, this.high); 
-        const fieldTodoPriority = createElement('div', {class:'field'}, this.prioritySelection)
+        
+        getPriorityForEdit(this.editTodoSelected.getPriority(), this.low, this.medium, this.high);
+        
+        const fieldTodoPriority = createElement('div', {class:'field'}, this.prioritySelection);
         const fieldDateSelect = createElement('div', {class:'fields'}, fieldDate, fieldTodoPriority);
 
         const iconEdit = createElement('i', {class:'fa-solid fa-pen-to-square editTodo'}, '');
@@ -181,14 +184,14 @@ function addTask(arg, todo){
     const text = `
             <li class="todo">
                         <input type="checkbox" name="todo" class="input" id="${todo.getIdTodo()}">
-                        <label for="${todo.getIdTodo()}" ></label>
+                        <label for="${todo.getIdTodo()}"></label>
                         <div class="details">
                             <div class="preview">
                                 <div class="title">${todo.getTodoName()}</div>
                                 <div class="infotags">
                                     <span class="dateTag">
                                         <span class="iconCalendar"><i class="fa fa-calendar"></i></span>
-                                        <span> ${todo.getDate()} </span>
+                                        <span>${todo.getDate()}</span>
                                     </span>
                                 </div>
                             </div>
@@ -226,6 +229,17 @@ function selectEditTodo(arg, todoSelected){
     arg.editTodoSelected = todoSelected;
     arg.view[3].value = arg.showEditTodoView();
 }
+
+function getPriorityForEdit(property, ...element){
+    const elements = [...element];
+    for(let key in elements){
+        elements[key].removeAttribute('selected');
+        if(property === elements[key].value){
+            elements[key].setAttribute('selected', 'true');
+        }
+    }
+}    
+
 
 export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo };
 
