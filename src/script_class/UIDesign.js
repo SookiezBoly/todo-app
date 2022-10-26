@@ -86,6 +86,7 @@ class UIDesign {
         this.formTask = createElement('form', {class:'formTask'}, divField);
 
         this.ulTodo = createElement('ul', {class:'todoLists'}, '');
+
         const bodyContainder = createElement('div', {class:'body'}, this.formTask, this.ulTodo);
 
         return [header, bodyContainder];
@@ -98,22 +99,33 @@ class UIDesign {
         const h1 = createElement('h1', {class:'title'}, this.editTodoSelected.getTodoName());
         const header = createElement('div', {class:'header'}, this.backButton, h1);
 
-
         this.inputEditText = createElement('input', {type:'text', name:'todoTitle', id:'todoTitle', class:'input', placeholder:'Enter Title', value:`${this.editTodoSelected.getTodoName()}`, required:'required'}, '');
         const fieldInput = createElement('div', {class:'field'}, this.inputEditText);
         this.textArea = createElement('textarea', {name:'taskDescription', id:'taskDescription', row:'15', placeholder:'enter tasks descriptions', value:`${this.editTodoSelected.getDescription()}`}, `${this.editTodoSelected.getDescription()}`);
         const fieldTextArea = createElement('div', {class:'field'}, this.textArea);
 
 
-
         this.inputDate = createElement('input', {type:'date', class:'todoDate', name:'todoDate', required:'required', value:`${this.editTodoSelected.getDate()}`}, '');
         const fieldDate = createElement('div', {class:'field'}, this.inputDate);
-        this.low = createElement('option', {value:'low', selected:'true'}, 'Low');
+        this.low = createElement('option', {value:'low'}, 'Low');
         this.medium = createElement('option', {value:'medium'}, 'Medium');
         this.high = createElement('option', {value:'high'}, 'High');
-        this.prioritySelection = createElement('select', {name:'prioritySelection', class:'prioritySelection', value:`${this.editTodoSelected.getPriority()}`}, this.low, this.medium, this.high); 
+        this.prioritySelection = createElement('select', {name:'prioritySelection', class:'prioritySelection'}, this.low, this.medium, this.high); 
         
-        getPriorityForEdit(this.editTodoSelected.getPriority(), this.low, this.medium, this.high);
+        if(this.editTodoSelected.getPriority() === this.low.value){
+            this.low.setAttribute('selected', 'true');
+        }
+        if(this.editTodoSelected.getPriority() === this.medium.value){
+            this.medium.setAttribute('selected', 'true');
+        }
+        if(this.editTodoSelected.getPriority() === this.high.value){
+            this.high.setAttribute('selected', 'true');
+        }
+        
+        // getPriorityForEdit(this.editTodoSelected.getPriority(), this.low, this.medium, this.high);
+        // this.propertyColor = getPriorityForEdit(this.prioritySelection, this.editTodoSelected.getPriority(), this.low, this.medium, this.high);
+
+
         
         const fieldTodoPriority = createElement('div', {class:'field'}, this.prioritySelection);
         const fieldDateSelect = createElement('div', {class:'fields'}, fieldDate, fieldTodoPriority);
@@ -137,7 +149,6 @@ class UIDesign {
 function renderApp(arg){
     return document.body.append(arg.app);
 }
-
 
 function renderView (arg, viewType){
     arg.container.innerHTML = '';
@@ -179,7 +190,6 @@ function addProject(arg, todo){
     arg.inputProject.value = '';
 }
 
-
 function addTask(arg, todo){
     const text = `
             <li class="todo">
@@ -206,8 +216,15 @@ function addTask(arg, todo){
         const position = 'beforeend';
         arg.ulTodo.insertAdjacentHTML(position, text);    
         arg.inputTask.value = '';
-}
 
+
+        if(todo.getPriority() === 'high' || todo.getPriority() === 'medium' || todo.getPriority() === 'low'){
+            const test = document.querySelector('.todo');
+            console.log(test)
+        }
+        
+        
+}
 
 function unselecteAllProject(){
     const elements =  document.querySelectorAll(".projectList .project .projectName");
@@ -215,7 +232,6 @@ function unselecteAllProject(){
          e.classList.remove('activeProject');
     });
 }
-
 
 function selectedProject(arg, projectSelected){
     arg.projectSelected = projectSelected;
@@ -230,17 +246,39 @@ function selectEditTodo(arg, todoSelected){
     arg.view[3].value = arg.showEditTodoView();
 }
 
-function getPriorityForEdit(property, ...element){
+
+function getPriorityForEdit(argument, property, ...element){
     const elements = [...element];
+
     for(let key in elements){
+        // if(property === elements[key].value){
+        //     elements[key].setAttribute('selected', 'true');
+        // }
+
         elements[key].removeAttribute('selected');
-        if(property === elements[key].value){
+        if(argument.value === ''){
+            argument.value = property;
             elements[key].setAttribute('selected', 'true');
         }
+
+    
     }
+
+    return elements;
 }    
 
 
-export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo };
+
+
+function getColor(arg){
+    if(arg.low.value === 'low' && arg.low.selected === true){
+        const test = document.querySelector('.todo');
+        console.log(test)
+    }
+}
+
+
+
+export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, getColor };
 
 

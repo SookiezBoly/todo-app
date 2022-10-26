@@ -59,12 +59,4 @@ class MiddleManagement{
 
 }
 
-
 export{ MiddleManagement };
-
-/**
- *  How to get our getTodoToEdit ::
- *         - je récupere le todo dans la liste les todos de mon projectselected dont l'ID est égale à l'ID de 
- * 
- * 
- */
