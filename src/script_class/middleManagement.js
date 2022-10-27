@@ -57,6 +57,14 @@ class MiddleManagement{
         this.setSelectedProject(this.selectedProject);
     }
 
+    deleteTodo(idTodo){
+        this.selectedProject.todos = this.selectedProject.todos.filter(todo => idTodo !== todo.getIdTodo());
+        this.setSelectedProject(this.selectedProject);
+        return this.selectedProject.todos;
+    }
+
 }
 
 export{ MiddleManagement };
+
+

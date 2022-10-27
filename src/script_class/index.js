@@ -1,4 +1,4 @@
-import { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, getColor } from '../script_class/UIDesign.js';
+import { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask } from '../script_class/UIDesign.js';
 import { Project } from '../script_class/project.js';
 import { Todo } from '../script_class/todo.js'
 import { MiddleManagement } from '../script_class/middleManagement.js';
@@ -43,7 +43,8 @@ ui.app.addEventListener('submit', (evt) => {
     if(evt.target.classList.contains('formTask')){
         const newTodo = new Todo(`${ui.inputTask.value}`);
         addTask(ui, newTodo);
-        management.addTodo(newTodo);     
+        management.addTodo(newTodo);
+        // console.log(management.projects)     
     }
 
     if(evt.target.classList.contains('editTodoform')){
@@ -58,26 +59,9 @@ ui.app.addEventListener('submit', (evt) => {
         renderView(ui, 'projectSelected');
         project.todos.forEach(todo => {
             addTask(ui, todo);
-
-            console.log(ui.low);
-            console.log(ui.medium);
-            console.log(ui.high);
-            // ui.propertyColor.forEach( color => {
-            //     if(color.hasAttribute("selected") === true){
-            //         if(color.value === 'low'){
-            //             document.querySelector('.container .body .todoLists .todo').classList.add('lowPriority');
-            //         }
-            //         if(color.value === 'medium'){
-            //             document.querySelector('.container .body .todoLists .todo').classList.add('mediumPriority');
-            //         }
-            //         if(color.value === 'high'){
-            //             document.querySelector('.container .body .todoLists .todo').classList.add('highPriority');
-            //         }
-            //     }
-            // });
-
         });
     }
+
 });
 
 
@@ -96,4 +80,37 @@ ui.app.addEventListener('click', (evt) => {
         renderView(ui, 'projectSelected');
     }
 
+    if(evt.target.classList.contains('deleteTodo')){
+        const idDeleteClicked = evt.target.id;
+        const todoToDelete = document.querySelector(`[data-id="${idDeleteClicked}"]`);
+        deleteTask(ui, todoToDelete);
+        management.deleteTodo(idDeleteClicked);
+    }
+
+
+    // if(evt.target.nodeName === 'LABEL' || evt.target.nodeName === 'INPUT'){
+    //     const idClicked = evt.target.id;
+    //     const todoCreated = management.getTodo(idClicked);
+    //     const idTodoCreated = todoCreated.getIdTodo();
+
+    //     if(NamedNodeMap.getNamedItem('id').value === idTodoCreated){
+    //         console.log(idTodoCreated)
+    //     }
+    // }
+
+    if(evt.target.classList.contains('todoToCheck')){
+        const idClicked = evt.target.dataset.id;
+        const todoToCheck = management.getTodo(idClicked);
+        
+        console.log(todoToCheck);
+
+    }
+
 })
+
+/**
+ * ordre :
+ *      j'entre dans le todo
+ *          si mon input contient le même id que mon 
+ * 
+ */

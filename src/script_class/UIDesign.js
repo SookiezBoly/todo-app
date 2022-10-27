@@ -112,21 +112,8 @@ class UIDesign {
         this.high = createElement('option', {value:'high'}, 'High');
         this.prioritySelection = createElement('select', {name:'prioritySelection', class:'prioritySelection'}, this.low, this.medium, this.high); 
         
-        if(this.editTodoSelected.getPriority() === this.low.value){
-            this.low.setAttribute('selected', 'true');
-        }
-        if(this.editTodoSelected.getPriority() === this.medium.value){
-            this.medium.setAttribute('selected', 'true');
-        }
-        if(this.editTodoSelected.getPriority() === this.high.value){
-            this.high.setAttribute('selected', 'true');
-        }
-        
-        // getPriorityForEdit(this.editTodoSelected.getPriority(), this.low, this.medium, this.high);
-        // this.propertyColor = getPriorityForEdit(this.prioritySelection, this.editTodoSelected.getPriority(), this.low, this.medium, this.high);
+        _getPriorityForEdit(this.editTodoSelected.getPriority(), this.low, this.medium, this.high);
 
-
-        
         const fieldTodoPriority = createElement('div', {class:'field'}, this.prioritySelection);
         const fieldDateSelect = createElement('div', {class:'fields'}, fieldDate, fieldTodoPriority);
 
@@ -192,9 +179,9 @@ function addProject(arg, todo){
 
 function addTask(arg, todo){
     const text = `
-            <li class="todo">
-                        <input type="checkbox" name="todo" class="input" id="${todo.getIdTodo()}">
-                        <label for="${todo.getIdTodo()}"></label>
+            <li class="todo" data-id = "${todo.getIdTodo()}">
+                        <input type="checkbox" name="todoToCheck" class="input" id="${todo.getIdTodo()}">
+                        <label for="${todo.getIdTodo()}" class="todoToCheck" data-id ="${todo.getIdTodo()}"></label>
                         <div class="details">
                             <div class="preview">
                                 <div class="title">${todo.getTodoName()}</div>
@@ -217,13 +204,12 @@ function addTask(arg, todo){
         arg.ulTodo.insertAdjacentHTML(position, text);    
         arg.inputTask.value = '';
 
+        _getColorPriority(todo);
+       
+}
 
-        if(todo.getPriority() === 'high' || todo.getPriority() === 'medium' || todo.getPriority() === 'low'){
-            const test = document.querySelector('.todo');
-            console.log(test)
-        }
-        
-        
+function deleteTask(arg, todoElement){
+    arg.ulTodo.removeChild(todoElement);
 }
 
 function unselecteAllProject(){
@@ -246,39 +232,44 @@ function selectEditTodo(arg, todoSelected){
     arg.view[3].value = arg.showEditTodoView();
 }
 
-
-function getPriorityForEdit(argument, property, ...element){
+function _getPriorityForEdit(property, ...element){
     const elements = [...element];
 
     for(let key in elements){
-        // if(property === elements[key].value){
-        //     elements[key].setAttribute('selected', 'true');
-        // }
-
         elements[key].removeAttribute('selected');
-        if(argument.value === ''){
-            argument.value = property;
+        if(property === elements[key].value){
             elements[key].setAttribute('selected', 'true');
         }
-
-    
     }
-
-    return elements;
 }    
 
-
-
-
-function getColor(arg){
-    if(arg.low.value === 'low' && arg.low.selected === true){
-        const test = document.querySelector('.todo');
-        console.log(test)
-    }
+function _getColorPriority(todo){
+    const priority = todo.getPriority();
+        let color = document.querySelector(`[data-id="${todo.getIdTodo()}"]`);
+        switch(priority){
+            case 'high' :
+                color.classList.add('highPriority');
+                break;
+            case 'medium' :
+                color.classList.add('mediumPriority');
+                break;
+            case 'low' :
+                color.classList.add('lowPriority');
+                break;
+        } 
 }
 
+// function _getChecked(todo){
+//     if(todo.getIsChecked()){
+//         const elementLi = document.querySelector(`[data-id="${todo.getIdTodo()}"]`);
+//         if(elementLi){
+//             const elementInput = document.querySelector(input[type=checkbox]);
+//             elementInput.setAttribute('checked', true);
+//             elementLi.classList.add('checked');
+//         }
 
+//     }
+// }
 
-export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, getColor };
-
+export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask };
 

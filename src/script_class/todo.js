@@ -4,6 +4,7 @@ class Todo{
         this.description = '';
         this.date = '';
         this.priority = '';
+        this.checked = false;
         this.idTodo = Date.now().toString();
     }
 
@@ -25,6 +26,14 @@ class Todo{
 
     getDescription(){
         return this.description;
+    }
+
+    getChecked(){
+        return this.checked;
+    }
+
+    setChecked(check){
+        this.checked = check;
     }
 
     edit([newName, newDescription, newDate, newPriority]){
