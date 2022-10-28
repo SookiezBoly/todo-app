@@ -1,4 +1,4 @@
-import { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask } from '../script_class/UIDesign.js';
+import { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask, deleteProject } from '../script_class/UIDesign.js';
 import { Project } from '../script_class/project.js';
 import { Todo } from '../script_class/todo.js'
 import { MiddleManagement } from '../script_class/middleManagement.js';
@@ -43,7 +43,7 @@ ui.app.addEventListener('submit', (evt) => {
     if(evt.target.classList.contains('formTask')){
         const newTodo = new Todo(`${ui.inputTask.value}`);
         addTask(ui, newTodo);
-        management.addTodo(newTodo);    
+        management.addTodo(newTodo); 
     }
 
     if(evt.target.classList.contains('editTodoform')){
@@ -102,4 +102,17 @@ ui.app.addEventListener('click', (evt) => {
         management.setSelectedTodo(todoToCheck);
     }
 
+    if(evt.target.classList.contains('deleteProject')){
+        const idProjectClicked = evt.target.id;
+        const projectToDelete = document.getElementById(`${idProjectClicked}`).parentNode;
+        management.deleteProject(idProjectClicked);
+        deleteProject(ui, projectToDelete);
+        // renderView(ui, 'welcomeBackground');
+
+        console.log(management.projects);
+        console.log(management.projects);
+    }
+
+
+    
 });

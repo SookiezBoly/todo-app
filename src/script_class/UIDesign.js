@@ -161,8 +161,8 @@ function addProject(arg, todo){
                 <li class="project">
                     <span class="projectName" id = "${todo.getIdProject()}">${todo.getProjectName()}</span>
                     <div class="majProject">
-                        <i class="fa-solid fa-pen-to-square editProject"></i>
-                        <i class="fa-solid fa-trash deleteProject"></i>
+                        <i class="fa-solid fa-pen-to-square editProject" id="${todo.getIdProject()}"></i>
+                        <i class="fa-solid fa-trash deleteProject" id="${todo.getIdProject()}"></i>
                     </div>                
                 </li> `;
         
@@ -210,6 +210,17 @@ function addTask(arg, todo){
 function deleteTask(arg, todoElement){
     arg.ulTodo.removeChild(todoElement);
 }
+
+/*--------------------------------- PROBLEME ----------------------------*/
+// function deleteProject(arg, projectElement){    
+//     arg.projectList.removeChild(projectElement);
+
+//     if(arg.projectSelected && projectElement.){
+//         arg.container.innerHTML = '';
+//         renderView(arg, 'welcomeBackground');
+//     }
+// }
+/*-----------------------------------------------------------------------*/
 
 function unselecteAllProject(){
     const elements =  document.querySelectorAll(".projectList .project .projectName");
@@ -270,5 +281,38 @@ function _getChecked(todo){
     }
 }
 
-export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask };
+export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask, deleteProject };
 
+
+
+
+/**
+ * Pour delete un project...
+ *      - delete la table de tous les projets.
+ * 
+ * TABLES :
+ *          - delete le projet :                    ======> FAIT
+ *          - delete todo dans les tables.          ======> normalement c'est compris.. 
+ * 
+ * le problème est plutôt graphique............
+ * 
+ * GRAPHIQUEMENT :
+ *          - delete le projet 
+ *          - delete tous les todos à l'intérieurs
+ *          - effacer la page
+ *          - et revenir à la page de la page de welcome
+ * 
+ * 
+ */
+
+/**
+ *  si un projet est selectionné
+ *      on prend l'iD de ce projet et on le compare avec l'ID dont va cliquer pour supprimer
+ *      si c'est le même alors : 
+ *          - on va donc vider la page et lancer le renderView welcomme
+ *      si ce n'est pas le même :
+ *          - on va juste delete dans la liste des projets grapiquement et dans les tables.
+ * 
+ * 
+ * 
+ */

@@ -145,6 +145,19 @@ body{
     color: var(--white);
 }
 
+
+.sidebar .projects .content .projectList .majProject .editProject:hover{
+    transform: scale(1.01);
+    font-size: 2rem;
+    color: #556b2f;
+}
+
+.sidebar .projects .content .projectList .majProject .deleteProject:hover{
+    transform: scale(1.01);
+    font-size: 2rem;
+    color: #3e0000;
+}
+
 .fa-solid{
     cursor: pointer;
     font-size: 1.5rem;

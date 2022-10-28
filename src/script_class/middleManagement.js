@@ -31,6 +31,10 @@ class MiddleManagement{
         this.selectedProject = project;  
     }
 
+    deleteProject(idProject){
+        this.projects = this.projects.filter(project => idProject !== project.getIdProject() )
+    }
+
 /* ------------------------- todo --------------------------*/
     addTodo(todo){
         if(this.selectedProject){
