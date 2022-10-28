@@ -383,6 +383,7 @@ ul{
     font-size: 1.5rem;
 }
 
+
 .container .body .todoLists .todo .editTodo:hover{
     transform: scale(1.01);
     font-size: 2rem;
@@ -394,6 +395,7 @@ ul{
     font-size: 2rem;
     color: #3e0000;
 }
+
 
 .container .body .todoLists .todo .preview .title{
     text-transform: capitalize;
@@ -419,15 +421,19 @@ ul{
 }
 
 .container .body .todoLists .todo.highPriority::after{
-    background: red;
+    /* background: red; */
+    background: var(--afterBack, red);
 }
 
 .container .body .todoLists .todo.mediumPriority::after{
-    background: yellow;
+    /* background: yellow; */
+    background: var(--afterBack, yellow);
 }
 
+
 .container .body .todoLists .todo.lowPriority::after{
-    background: green;
+    /* background: green; */
+    background: var(--afterBack, green);
 }
 
 .container .body .todoLists .todo .others{
@@ -436,8 +442,12 @@ ul{
 }
 
 
-/*------------------ edittask page -----------------------*/
+.container .body .todoLists .todo.highPriority::after input[type="checkbox"]:checked{
+    background: gray;
+}
 
+
+/*------------------ edittask page -----------------------*/
 
 .container .header .backToTaskPage{
     cursor: pointer;

@@ -104,7 +104,6 @@ class UIDesign {
         this.textArea = createElement('textarea', {name:'taskDescription', id:'taskDescription', row:'15', placeholder:'enter tasks descriptions', value:`${this.editTodoSelected.getDescription()}`}, `${this.editTodoSelected.getDescription()}`);
         const fieldTextArea = createElement('div', {class:'field'}, this.textArea);
 
-
         this.inputDate = createElement('input', {type:'date', class:'todoDate', name:'todoDate', required:'required', value:`${this.editTodoSelected.getDate()}`}, '');
         const fieldDate = createElement('div', {class:'field'}, this.inputDate);
         this.low = createElement('option', {value:'low'}, 'Low');
@@ -205,7 +204,7 @@ function addTask(arg, todo){
         arg.inputTask.value = '';
 
         _getColorPriority(todo);
-       
+        _getChecked(todo);
 }
 
 function deleteTask(arg, todoElement){
@@ -259,17 +258,17 @@ function _getColorPriority(todo){
         } 
 }
 
-// function _getChecked(todo){
-//     if(todo.getIsChecked()){
-//         const elementLi = document.querySelector(`[data-id="${todo.getIdTodo()}"]`);
-//         if(elementLi){
-//             const elementInput = document.querySelector(input[type=checkbox]);
-//             elementInput.setAttribute('checked', true);
-//             elementLi.classList.add('checked');
-//         }
+function _getChecked(todo){
+    const labelInput = document.getElementById(`${todo.getIdTodo()}`);
+    const elementLi = labelInput.parentNode;
 
-//     }
-// }
+    if(todo.getChecked() === true){
+        labelInput.setAttribute('checked', true);
+        labelInput.classList.add('checked');
+        elementLi.classList.add('checked');
+        elementLi.style.setProperty('--afterBack', '#ccc');
+    }
+}
 
 export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask };
 

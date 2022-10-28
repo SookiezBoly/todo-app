@@ -43,8 +43,7 @@ ui.app.addEventListener('submit', (evt) => {
     if(evt.target.classList.contains('formTask')){
         const newTodo = new Todo(`${ui.inputTask.value}`);
         addTask(ui, newTodo);
-        management.addTodo(newTodo);
-        // console.log(management.projects)     
+        management.addTodo(newTodo);    
     }
 
     if(evt.target.classList.contains('editTodoform')){
@@ -63,7 +62,6 @@ ui.app.addEventListener('submit', (evt) => {
     }
 
 });
-
 
 
 ui.app.addEventListener('click', (evt) => {
@@ -87,30 +85,21 @@ ui.app.addEventListener('click', (evt) => {
         management.deleteTodo(idDeleteClicked);
     }
 
-
-    // if(evt.target.nodeName === 'LABEL' || evt.target.nodeName === 'INPUT'){
-    //     const idClicked = evt.target.id;
-    //     const todoCreated = management.getTodo(idClicked);
-    //     const idTodoCreated = todoCreated.getIdTodo();
-
-    //     if(NamedNodeMap.getNamedItem('id').value === idTodoCreated){
-    //         console.log(idTodoCreated)
-    //     }
-    // }
-
     if(evt.target.classList.contains('todoToCheck')){
         const idClicked = evt.target.dataset.id;
         const todoToCheck = management.getTodo(idClicked);
-        
-        console.log(todoToCheck);
+        const elementLi = evt.target.parentNode;
 
+        if(todoToCheck.getChecked() === true){
+            todoToCheck.setChecked(false);
+            elementLi.classList.remove('checked');
+            elementLi.style = '';
+        }else{
+            todoToCheck.setChecked(true);
+            elementLi.classList.add('checked');
+            elementLi.style.setProperty('--afterBack', '#ccc');
+        }
+        management.setSelectedTodo(todoToCheck);
     }
 
-})
-
-/**
- * ordre :
- *      j'entre dans le todo
- *          si mon input contient le même id que mon 
- * 
- */
+});
