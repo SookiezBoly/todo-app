@@ -43,7 +43,7 @@ class UIDesign {
                 value: '',
             },
             {
-                name:'editView',
+                name:'editTodoView',
                 value:'',
             }
         ];
@@ -73,6 +73,25 @@ class UIDesign {
     
         return [header, bodyContainder]; 
     }
+
+
+    showProjectEditView(){
+        const h1 = createElement('h1', {class:'title'}, `Edit project ${this.projectToEdit.getProjectName()}`);
+        const header= createElement('div', {class:'header'}, h1);
+        this.inputProject = createElement('input', {type:'text', class:'inputProject', id:'inputProject', placeholder:'project name', name:'project-name', value:`${this.projectToEdit.getProjectName()}`}, `${this.projectToEdit.getProjectName()}`);
+
+        const logoEdit = createElement('i', {class:'fa-solid fa-pen-to-square'}, '');
+        const span = createElement('span', {}, '');
+        this.buttonEdit = createElement('button', {type:'submit', class:'addNewProject'}, span, logoEdit);
+
+        const divField = createElement('div', {class:'field'}, this.inputProject, this.buttonEdit);
+
+        this.formEdit = createElement('form', {class:'projectFormEdit', id:`${this.projectToEdit.getIdProject()}`}, divField);
+        const bodyContainder = createElement('div', {class:'body'}, this.formEdit);
+
+        return [header, bodyContainder];
+    }
+
 
 
     showProjectSelectedView(){
@@ -129,7 +148,7 @@ class UIDesign {
 }
 
 
-/** ----------------------------------------- functions ---------------------------------------------------------- */
+/** ----------------------------------------- functions -------------------------------------------------------- */
 
 
 function renderApp(arg){
@@ -156,25 +175,53 @@ function renderView (arg, viewType){
     }
 }
 
-function addProject(arg, todo){
+function addProject(arg, project){
     const text = `
                 <li class="project">
-                    <span class="projectName" id = "${todo.getIdProject()}">${todo.getProjectName()}</span>
+                    <span class="projectName" id = "${project.getIdProject()}">${project.getProjectName()}</span>
                     <div class="majProject">
-                        <i class="fa-solid fa-pen-to-square editProject" id="${todo.getIdProject()}"></i>
-                        <i class="fa-solid fa-trash deleteProject" id="${todo.getIdProject()}"></i>
+                        <i class="fa-solid fa-pen-to-square editProject" id="${project.getIdProject()}"></i>
+                        <i class="fa-solid fa-trash deleteProject" id="${project.getIdProject()}"></i>
                     </div>                
                 </li> `;
         
-    if(todo.getProjectName()){
-        if(!arg.projectNames.includes(`${todo.getProjectName().toLowerCase()}`)){
+    if(project.getProjectName()){
+        if(!arg.projectNames.includes(`${project.getProjectName().toLowerCase()}`)){
             const position = 'beforeend';
             arg.projectList.insertAdjacentHTML(position, text);
-            arg.projectNames.push(todo.getProjectName().toLowerCase());
-        }   
+            arg.projectNames.push(project.getProjectName().toLowerCase());
+        }
     }
     arg.inputProject.value = '';
 }
+
+
+function editProject(arg, project){
+    arg.projectToEdit = project;
+
+    const views = arg.showProjectEditView();
+
+    arg.container.innerHTML = '';
+
+    views.forEach(view => {
+        arg.container.append(view);
+    })
+}
+
+function updateEditedProject(arg, project){
+    const listProject = document.querySelectorAll('li');
+    listProject.forEach(element => {
+        if(element.firstElementChild.id === project.getIdProject()){
+            if(!arg.projectNames.includes(`${project.getProjectName()}`)){
+                element.firstElementChild.innerText = project.getProjectName();
+            }
+        }    
+    });
+
+    arg.inputProject.value = '';
+}
+
+
 
 function addTask(arg, todo){
     const text = `
@@ -211,16 +258,18 @@ function deleteTask(arg, todoElement){
     arg.ulTodo.removeChild(todoElement);
 }
 
-/*--------------------------------- PROBLEME ----------------------------*/
-// function deleteProject(arg, projectElement){    
-//     arg.projectList.removeChild(projectElement);
-
-//     if(arg.projectSelected && projectElement.){
-//         arg.container.innerHTML = '';
-//         renderView(arg, 'welcomeBackground');
-//     }
-// }
-/*-----------------------------------------------------------------------*/
+function deleteProject(arg, projectElement){    
+    arg.projectList.removeChild(projectElement);
+    const isActiveHere = projectElement.firstElementChild.classList.contains('activeProject');
+    const spanTextContent = projectElement.firstElementChild.innerText.toLowerCase();
+    
+    if(isActiveHere){
+        arg.container.innerHTML = '';
+        renderView(arg, 'welcomeBackground');
+    }
+    
+    arg.projectNames = arg.projectNames.filter(name => name !== spanTextContent);
+}
 
 function unselecteAllProject(){
     const elements =  document.querySelectorAll(".projectList .project .projectName");
@@ -281,38 +330,4 @@ function _getChecked(todo){
     }
 }
 
-export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask, deleteProject };
-
-
-
-
-/**
- * Pour delete un project...
- *      - delete la table de tous les projets.
- * 
- * TABLES :
- *          - delete le projet :                    ======> FAIT
- *          - delete todo dans les tables.          ======> normalement c'est compris.. 
- * 
- * le problème est plutôt graphique............
- * 
- * GRAPHIQUEMENT :
- *          - delete le projet 
- *          - delete tous les todos à l'intérieurs
- *          - effacer la page
- *          - et revenir à la page de la page de welcome
- * 
- * 
- */
-
-/**
- *  si un projet est selectionné
- *      on prend l'iD de ce projet et on le compare avec l'ID dont va cliquer pour supprimer
- *      si c'est le même alors : 
- *          - on va donc vider la page et lancer le renderView welcomme
- *      si ce n'est pas le même :
- *          - on va juste delete dans la liste des projets grapiquement et dans les tables.
- * 
- * 
- * 
- */
+export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask, deleteProject, editProject, updateEditedProject };

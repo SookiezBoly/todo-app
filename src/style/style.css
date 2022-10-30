@@ -201,20 +201,23 @@ body{
     margin: 1.5rem 0;
 }
 
-.container .body .projectForm{
+.container .body .projectForm,
+.container .body .projectFormEdit{
     padding: 1rem;
     max-width: 500px;
     margin: auto;
 }
 
-.container .body .projectForm .field{
+.container .body .projectForm .field,
+.container .body .projectFormEdit .field{
     display: flex;
     flex-direction: column;
     border-radius: 30px;
     position: relative;
 }
 
-.container .body .projectForm .field input{
+.container .body .projectForm .field input,
+.container .body .projectFormEdit .field input{
     height: 4rem;
     border: 1px solid #f1f1f1;
     font-size: 1.3rem;
@@ -222,7 +225,8 @@ body{
     padding: 1rem 5rem 1rem 1rem;
 }
 
-.container .body .projectForm .field button{
+.container .body .projectForm .field button,
+.container .body .projectFormEdit .field button{
     margin-top: 1rem;
     padding: 1rem 1.5rem;
     color: var(--bg);
@@ -242,7 +246,8 @@ body{
     height: 4rem;
 }
 
-.container .body .projectForm .field button > span{
+.container .body .projectForm .field button > span,
+.container .body .projectFormEdit .field button > span{
     margin-right: 0.5rem;
 }
 

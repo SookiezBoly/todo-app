@@ -35,6 +35,20 @@ class MiddleManagement{
         this.projects = this.projects.filter(project => idProject !== project.getIdProject() )
     }
 
+    deleteProjectNames(project){
+        const nameProject = project.getProjectName().toLowerCase();
+        this.projectNames = this.projectNames.filter(name => name !== nameProject);
+    }
+
+    editProject(idClicked, newName){
+        const projectNameToEdit = this.getSelectedProject(idClicked);
+        if(!this.projectNames.includes(`${newName}`)){
+            projectNameToEdit.setProjectName(newName);
+        }       
+    }
+
+
+
 /* ------------------------- todo --------------------------*/
     addTodo(todo){
         if(this.selectedProject){

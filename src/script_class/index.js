@@ -1,4 +1,4 @@
-import { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask, deleteProject } from '../script_class/UIDesign.js';
+import { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask, deleteProject, editProject, updateEditedProject } from '../script_class/UIDesign.js';
 import { Project } from '../script_class/project.js';
 import { Todo } from '../script_class/todo.js'
 import { MiddleManagement } from '../script_class/middleManagement.js';
@@ -37,6 +37,8 @@ ui.projectList.addEventListener('click', (e) => {
 });
 
 
+
+
 ui.app.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -61,6 +63,13 @@ ui.app.addEventListener('submit', (evt) => {
         });
     }
 
+    if(evt.target.classList.contains('projectFormEdit')){
+        const idClicked = evt.target.id;
+        const newName = ui.inputProject.value
+        const projectNameToEdit = management.getSelectedProject(idClicked);
+        management.editProject(idClicked, newName);
+        updateEditedProject(ui, projectNameToEdit);
+    }
 });
 
 
@@ -71,7 +80,7 @@ ui.app.addEventListener('click', (evt) => {
         const todoToEdit = management.getTodo(idTodoClicked);
         management.setSelectedTodo(todoToEdit);
         selectEditTodo(ui, todoToEdit);
-        renderView(ui, 'editView');
+        renderView(ui, 'editTodoView');
     }
 
     if(evt.target.classList.contains('backToTaskPage') || evt.target.classList.contains('fa-chevron-left')){
@@ -104,15 +113,16 @@ ui.app.addEventListener('click', (evt) => {
 
     if(evt.target.classList.contains('deleteProject')){
         const idProjectClicked = evt.target.id;
-        const projectToDelete = document.getElementById(`${idProjectClicked}`).parentNode;
-        management.deleteProject(idProjectClicked);
-        deleteProject(ui, projectToDelete);
-        // renderView(ui, 'welcomeBackground');
-
-        console.log(management.projects);
-        console.log(management.projects);
+        const projectClicked = management.getSelectedProject(idProjectClicked);
+        const projectElementToDelete = document.getElementById(`${idProjectClicked}`).parentNode;
+        management.deleteProjectNames(projectClicked);
+        management.deleteProject(projectClicked);
+        deleteProject(ui, projectElementToDelete);
     }
 
-
-    
+    if(evt.target.classList.contains('editProject')){
+        const idProjectClicked = evt.target.id;
+        const projectToEdit = management.getSelectedProject(idProjectClicked);
+        editProject(ui, projectToEdit);
+    } 
 });
