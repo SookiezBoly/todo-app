@@ -8,16 +8,17 @@ class UIDesign {
         this.h1 = createElement('h1', {}, 'todo app');
         this.header = createElement('div', {class:'header'}, this.h1);
 
-        this.all = createElement('div',{class:'all'}, 'all');
-        this.today = createElement('div',{class:'today'}, 'today');
-        this.week = createElement('div',{class:'week'}, 'week');
-        this.month = createElement('div',{class:'month'}, 'month');
-        this.temporalityProject = createElement('div', {class:'temporalityProject'}, this.all, this.today, this.week, this.month);
+        // this.all = createElement('div',{class:'all'}, 'all');
+        // this.today = createElement('div',{class:'today'}, 'today');
+        // this.week = createElement('div',{class:'week'}, 'week');
+        // this.month = createElement('div',{class:'month'}, 'month');
+        // this.temporalityProject = createElement('div', {class:'temporalityProject'}, this.all, this.today, this.week, this.month);
 
         this.buttonNewProject = createElement('button', {class:'newProjectButton'}, 'create project');
         this.projectList = createElement('ul', {class:'projectList'}, '');
 
-        this.content = createElement('div', {class:'content'}, this.temporalityProject, this.buttonNewProject, this.projectList);
+        // this.content = createElement('div', {class:'content'}, this.temporalityProject, this.buttonNewProject, this.projectList);
+        this.content = createElement('div', {class:'content'}, this.buttonNewProject, this.projectList);
         this.projects = createElement('div', {class:'projects'}, this.header, this.content);
         this.sidebar = createElement('div', {class:'sidebar'}, this.projects);
 

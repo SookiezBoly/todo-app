@@ -9,7 +9,7 @@ const management = new MiddleManagement();
 
 
 renderApp(ui);
-
+renderView(ui, 'welcomeBackground');
 
 if(localStorage.getItem('projects')){
     const Ldatas = JSON.parse(localStorage.getItem('projects'));
@@ -28,22 +28,10 @@ if(localStorage.getItem('projects')){
 }
 
 
-renderView(ui, 'welcomeBackground');
-
-
-// ui.buttonNewProject.addEventListener('click', () =>{
-
-//     renderView(ui, 'createProjectView');
-
-//     ui.buttonNewProject.classList.add('active');
-// });
-
 ui.buttonNewProject.addEventListener('click', () =>{
     unselecteAllProject();
     renderView(ui, 'createProjectView');
 });
-
-
 
 
 ui.form.addEventListener('submit', (evt)=>{
@@ -59,8 +47,8 @@ ui.projectList.addEventListener('click', (e) => {
     if(e.target.classList.contains('projectName')){
         const projectClicked = management.getSelectedProject(e.target.id);
         if(projectClicked){
-            selectedProject(ui, projectClicked);
             management.setSelectedProject(projectClicked);
+            selectedProject(ui, projectClicked);
             renderView(ui, 'projectSelected');      
         }
     }
@@ -73,8 +61,7 @@ ui.app.addEventListener('submit', (evt) => {
 
     if(evt.target.classList.contains('formTask')){
         const newTodo = new Todo(`${ui.inputTask.value}`);
-        management.addTodo(newTodo);
-        
+        const added = management.addTodo(newTodo);
         addTask(ui, newTodo);
         management.storeIntoLocalStorage(); 
     }
@@ -91,9 +78,8 @@ ui.app.addEventListener('submit', (evt) => {
         renderView(ui, 'projectSelected');
         project.todos.forEach(todo => {
             addTask(ui, todo);
-        });
-
-        
+        });   
+        management.storeIntoLocalStorage();
     }
 
     if(evt.target.classList.contains('projectFormEdit')){
@@ -102,8 +88,7 @@ ui.app.addEventListener('submit', (evt) => {
         const projectNameToEdit = management.getSelectedProject(idClicked);
         management.editProject(idClicked, newName);
         updateEditedProject(ui, projectNameToEdit);
-
-       
+        management.storeIntoLocalStorage();
     }
 });
 
@@ -127,8 +112,7 @@ ui.app.addEventListener('click', (evt) => {
         const todoToDelete = document.querySelector(`[data-id="${idDeleteClicked}"]`);
         deleteTask(ui, todoToDelete);
         management.deleteTodo(idDeleteClicked);
-
-        
+        management.storeIntoLocalStorage();   
     }
 
     if(evt.target.classList.contains('todoToCheck')){
@@ -146,8 +130,7 @@ ui.app.addEventListener('click', (evt) => {
             elementLi.style.setProperty('--afterBack', '#ccc');
         }
         management.setSelectedTodo(todoToCheck);
-
-        
+        management.storeIntoLocalStorage();
     }
 
     if(evt.target.classList.contains('deleteProject')){
@@ -157,15 +140,13 @@ ui.app.addEventListener('click', (evt) => {
         management.deleteProjectNames(projectClicked);
         management.deleteProject(projectClicked);
         deleteProject(ui, projectElementToDelete);
-
-        
+        management.storeIntoLocalStorage();
     }
 
     if(evt.target.classList.contains('editProject')){
         const idProjectClicked = evt.target.id;
         const projectToEdit = management.getSelectedProject(idProjectClicked);
         editProject(ui, projectToEdit);
-
-       
+        management.storeIntoLocalStorage();
     } 
 });
