@@ -5,7 +5,23 @@ class MiddleManagement{
     }
 
 
-/* ------------------------- project --------------------------*/
+/* ---------------------------------------------- Local Storage ------------------------------------------------------ */
+
+    storeIntoLocalStorage = () => {
+        const datas = [];
+        this.projects.forEach(project => {
+            datas.push({
+                idProject : project.getIdProject(),
+                nameProject : project.getProjectName(),         
+                todos : project.getDatasTodos()
+            });
+        });
+
+        localStorage.setItem('projects', JSON.stringify(datas));
+    }
+
+/* ----------------------------------------------    project       --------------------------------------------------- */
+
     addProjectName(project){
        this.projectNames.push(project.getProjectName().toLowerCase());
     }
@@ -21,10 +37,9 @@ class MiddleManagement{
         return this.selectedProject;
     }
 
-    /* selected project when we click on one, to get the objectproject [before creating any taks] */
     getSelectedProject(idProject){
         const idPro = this.projects.filter(project => idProject === project.getIdProject());
-        return idPro[0];    /* now it give me an object instead of an array which was my issue */
+        return idPro[0];
     }
 
     setSelectedProject(project){
@@ -49,12 +64,14 @@ class MiddleManagement{
 
 
 
-/* ------------------------- todo --------------------------*/
+/* ------------------------------------------      todo         ----------------------------------------------------- */
+
     addTodo(todo){
         if(this.selectedProject){
             const projetSelected = this.projects.filter( project => this.selectedProject.getIdProject() === project.getIdProject() )[0];
             projetSelected.addTodo(todo);
             this.setSelectedProject(projetSelected);
+            return true;
         }
     }
 
@@ -82,6 +99,11 @@ class MiddleManagement{
     }
 
 }
+
+
+
+
+
 
 export{ MiddleManagement };
 

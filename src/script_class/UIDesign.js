@@ -106,6 +106,7 @@ class UIDesign {
 
         this.ulTodo = createElement('ul', {class:'todoLists'}, '');
 
+
         const bodyContainder = createElement('div', {class:'body'}, this.formTask, this.ulTodo);
 
         return [header, bodyContainder];
@@ -178,7 +179,7 @@ function renderView (arg, viewType){
 function addProject(arg, project){
     const text = `
                 <li class="project">
-                    <span class="projectName" id = "${project.getIdProject()}">${project.getProjectName()}</span>
+                    <span class="projectName" id="${project.getIdProject()}">${project.getProjectName()}</span>
                     <div class="majProject">
                         <i class="fa-solid fa-pen-to-square editProject" id="${project.getIdProject()}"></i>
                         <i class="fa-solid fa-trash deleteProject" id="${project.getIdProject()}"></i>
@@ -220,8 +221,6 @@ function updateEditedProject(arg, project){
 
     arg.inputProject.value = '';
 }
-
-
 
 function addTask(arg, todo){
     const text = `
@@ -330,4 +329,4 @@ function _getChecked(todo){
     }
 }
 
-export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask, deleteProject, editProject, updateEditedProject };
+export { UIDesign, renderView, renderApp, addProject, selectedProject, addTask, selectEditTodo, deleteTask, deleteProject, editProject, updateEditedProject, unselecteAllProject };

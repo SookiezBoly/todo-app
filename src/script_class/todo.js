@@ -42,6 +42,17 @@ class Todo{
         this.date = newDate;
         this.priority = newPriority;
     }
+
+    getDatasTodo = () => ({
+        idTodo : this.getIdTodo(),
+        todoName : this.getTodoName(),
+        description : this.getDescription(),
+        date : this.getDate(),
+        priority : this.getPriority(),
+        checked : this.getChecked(),
+    });
+
 }
 
 export{ Todo };
+
